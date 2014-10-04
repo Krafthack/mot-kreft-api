@@ -1,6 +1,6 @@
 * Heroku:
  - Heroku toolkit (insert URL here)
- - First setup run heroku pg:psql < db/model.sql
+ - First setup run ``heroku pg:psql < db/model.sql``
 * Run:
  - foreman start or node index.js
 * Port:
