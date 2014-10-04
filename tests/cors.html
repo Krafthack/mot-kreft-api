@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title></title>
+    <script src="../node_modules/superagent/superagent.js"></script>
+    <script charset="utf-8">
+      var request = superagent;
+      var url = 'http://localhost:8005/';
+      var callback = function(type) {
+        return function (res){
+          if (res.ok) {
+            console.log(type + ' cors works')
+          } else {
+            console.log(type + ' cors fails')
+          }
+        }
+      }
+
+      request
+       .get(url)
+       .end(callback('GET'));
+
+       request.post(url)
+        .set('Content-Type', 'application/json')
+        .send('{"data":"data"}')
+        .end(callback('POST'))
+
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

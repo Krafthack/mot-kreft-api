@@ -21,5 +21,8 @@
     "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "superagent": "^0.20.0"
+  }
 }
