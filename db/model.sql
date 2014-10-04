@@ -1,5 +1,3 @@
-\connect krefthack;
-
 drop table moods;
 drop table users;
 
