@@ -4,13 +4,24 @@ var app = express();
 app.set('port', (process.env.PORT || 5000))
 app.set('databaseString', process.env.DATABASE_URL)
 
+var Q = require('Q');
 var pg = require('pg');
 var conString = app.get('databaseString');
 var client = new pg.Client(conString);
-client.connect(function(err) {
-  if(err) {
-    return console.error('could not connect to postgres', err);
-  }
+
+function connect() {
+  var deferred = Q.defer();
+  client.connect(function(err) {
+    if(err) {
+      return deferred.reject(['could not connect to postgres:', err]);
+    }
+    else {
+      return deferred.resolve(client);
+    }
+  })
+  return deferred.promise;
+}
+connect().then(function(client) {
   client.query('SELECT NOW() AS "theTime"', function(err, result) {
     if(err) {
       return console.error('error running query', err);
