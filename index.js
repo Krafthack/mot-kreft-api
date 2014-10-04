@@ -6,16 +6,6 @@ app.set('port', (process.env.PORT || 5000))
 app.set('databaseString', process.env.DATABASE_URL)
 
 var conString = app.get('databaseString');
-pg.connect(conString).then(function(client) {
-  client.query('SELECT NOW() AS "theTime"', function(err, result) {
-    if(err) {
-      return console.error('error running query', err);
-    }
-    console.log(result.rows[0].theTime);
-    //output: Tue Jan 15 2013 19:12:47 GMT-600 (CST)
-    client.end();
-  });
-});
 
 app.all('*', function(req, res, next){
   if (!req.get('Origin')) return next();
@@ -28,14 +18,27 @@ app.all('*', function(req, res, next){
   next();
 });
 
-app.get('/', function(req, res) {
-  res.json({ success: true })
-})
+pg.connect(conString).then(function(pgclient) {
+  console.log('Connected to psql');
 
-app.post('/', function(req, res) {
-  res.json({ success: true })
-})
+  app.get('/', function(req, res) {
+    res.json({ success: true, message: 'Welcome'})
+  });
+
+  app.get('/moods', function(req, res) {
+    pgclient.query('SELECT * FROM moods', function(err, results) {
+      if (err) {
+        return res.status(500).json( {success: false, error: err} )
+      }
+      return res.json({ success: true, moods: results.rows })
+    })
+  });
+
+  app.post('/moods', function(req, res) {
+    res.json({ success: false, error: 'Not implemented' })
+  });
+});
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
-})
+});
