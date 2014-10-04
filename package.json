@@ -1,0 +1,25 @@
+{
+  "name": "krafthack-mot-kreft-api",
+  "version": "0.0.0",
+  "description": "PoC. Todo: Description",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "~4.9.x"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gronnbeck/krafthack-mot-kreft-api"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
