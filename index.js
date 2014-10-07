@@ -45,7 +45,7 @@ app.post('/users', function(req, res) {
 });
 
 app.get('/users/me', function(req,res) {
-  res.json({ name: 'Bruker brukersen', username: 'bruker' })
+  res.json(req.session.user)
 })
 
 
