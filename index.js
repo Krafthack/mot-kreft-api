@@ -26,6 +26,9 @@ app.get('/moods', function(req, res) {
       }
       return res.json({ success: true, moods: results.rows })
     })
+  }, function(err) {
+    return res.status(500).json(
+      { success: false, error: 'Could not connect to the database'});
   });
 });
 
