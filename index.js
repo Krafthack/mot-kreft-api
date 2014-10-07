@@ -14,7 +14,6 @@ app.use(session( {
   secret: app.get('sessionKey')
 }));
 
-var conString = app.get('databaseString');
 app.all('*', enableCors);
 app.all('*', dummies.dummyUser);
 
@@ -23,6 +22,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/moods', function(req, res) {
+  var conString = app.get('databaseString');
   pg.connect(conString).then(function(pgclient) {
     pgclient.query('SELECT * FROM moods', function(err, results) {
       if (err) {
