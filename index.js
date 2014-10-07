@@ -1,12 +1,11 @@
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var pg = require('./src/lib/q-pg.js');
+var configure = require('./src/lib/app-config');
+var pg = require('./src/lib/q-pg');
 var app = express();
 
-app.set('port', (process.env.PORT || 5000))
-app.set('databaseString', process.env.DATABASE_URL)
-app.set('sessionKey', process.env.SESSION_KEY || '1234567890 dev key');
+configure(app);
 
 app.use(bodyParser.json());
 app.use(session({secret: app.get('sessionKey')}));
