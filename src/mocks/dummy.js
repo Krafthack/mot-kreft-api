@@ -1,4 +1,4 @@
-var User = require('./user');
+var User = require('../models/user');
 
 var dummyUser = function (req, res, next) {
   var session = req.session;

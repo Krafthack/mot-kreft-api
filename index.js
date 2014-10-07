@@ -1,9 +1,9 @@
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var configure = require('./src/lib/app-config');
-var enableCors = require('./src/lib/enable-cors');
-var dummies = require('./src/lib/dummy');
+var configure = require('./src/config/app-config');
+var enableCors = require('./src/middlewares/enable-cors');
+var dummies = require('./src/mocks/dummy');
 var pg = require('./src/lib/q-pg');
 var app = express();
 
