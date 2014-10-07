@@ -2,6 +2,7 @@ var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var configure = require('./src/lib/app-config');
+var enableCors = require('./src/lib/enable-cors');
 var pg = require('./src/lib/q-pg');
 var app = express();
 
@@ -11,16 +12,7 @@ app.use(bodyParser.json());
 app.use(session({secret: app.get('sessionKey')}));
 
 var conString = app.get('databaseString');
-app.all('*', function(req, res, next){
-  if (!req.get('Origin')) return next();
-  // use "*" here to accept any origin
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'POST, PUT, GET');
-  res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
-  // res.set('Access-Control-Allow-Max-Age', 3600);
-  if ('OPTIONS' == req.method) return res.send(200);
-  next();
-});
+app.all('*', enableCors);
 
 app.get('/', function(req, res) {
   res.json({ success: true, message: 'Welcome'})
