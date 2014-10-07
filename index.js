@@ -5,6 +5,8 @@ var configure = require('./src/config/app-config');
 var enableCors = require('./src/middlewares/enable-cors');
 var usersApi = require('./src/api/users');
 var moodsApi = require('./src/api/moods');
+var dummies = require('./src/mocks/dummy');
+var pg = require('./src/lib/q-pg');
 var app = express();
 
 configure(app);
