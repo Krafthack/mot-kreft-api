@@ -3,16 +3,20 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var configure = require('./src/lib/app-config');
 var enableCors = require('./src/lib/enable-cors');
+var dummies = require('./src/lib/dummy');
 var pg = require('./src/lib/q-pg');
 var app = express();
 
 configure(app);
 
 app.use(bodyParser.json());
-app.use(session({secret: app.get('sessionKey')}));
+app.use(session( {
+  secret: app.get('sessionKey')
+}));
 
 var conString = app.get('databaseString');
 app.all('*', enableCors);
+app.all('*', dummies.dummyUser);
 
 app.get('/', function(req, res) {
   res.json({ success: true, message: 'Welcome'})
