@@ -3,8 +3,8 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var configure = require('./src/config/app-config');
 var enableCors = require('./src/middlewares/enable-cors');
-var dummies = require('./src/mocks/dummy');
-var pg = require('./src/lib/q-pg');
+var usersApi = require('./src/api/users');
+var moodsApi = require('./src/api/moods');
 var app = express();
 
 configure(app);
@@ -15,39 +15,13 @@ app.use(session( {
 }));
 
 app.all('*', enableCors);
-app.all('*', dummies.dummyUser);
+
+app.use(moodsApi);
+app.use(usersApi);
 
 app.get('/', function(req, res) {
   res.json({ success: true, message: 'Welcome'})
 });
-
-app.get('/moods', function(req, res) {
-  var conString = app.get('databaseString');
-  pg.connect(conString).then(function(pgclient) {
-    pgclient.query('SELECT * FROM moods', function(err, results) {
-      if (err) {
-        return res.status(500).json( {success: false, error: err} )
-      }
-      return res.json({ success: true, moods: results.rows })
-    })
-  }, function(err) {
-    return res.status(500).json(
-      { success: false, error: 'Could not connect to the database'});
-  });
-});
-
-app.post('/moods', function(req, res) {
-  res.json({ success: false, error: 'Not implemented' })
-});
-
-app.post('/users', function(req, res) {
-  res.json({ success: false, error: 'Not implemented' })
-});
-
-app.get('/users/me', function(req,res) {
-  res.json(req.session.user)
-})
-
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
