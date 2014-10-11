@@ -3,8 +3,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var configure = require('./src/config/app-config');
 var enableCors = require('./src/middlewares/enable-cors');
-var usersApi = require('./src/api/users');
-var moodsApi = require('./src/api/moods');
+var api = require('./src/api');
 var dummies = require('./src/mocks/dummy');
 var pg = require('./src/lib/q-pg');
 var app = express();
@@ -18,8 +17,7 @@ app.use(session( {
 
 app.all('*', enableCors);
 
-app.use(moodsApi);
-app.use(usersApi);
+app.use(api);
 
 app.get('/', function(req, res) {
   res.json({ success: true, message: 'Welcome'})
