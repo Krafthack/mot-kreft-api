@@ -54,8 +54,8 @@ postgres://dev_krafthack:<dev_password>@localhost/krefthack
 Siden dette er en workshop der minst 3 apper kommer til å eksistere samtidig og
 være under konstant forandring, har vi valgt å ha en veldig fleksibel datamodell
 som kommer til å bli endret i etter tid. Under workshoppen vil det derfor ikke
-være lov til å slette eller endre eksisterende rader i en tabell. Det er heller
-ikke lov til å slette eller endre navn på en tabell.
+være lov til å slette tabeller eller rader i tabellen. Dette er for å unngå at
+større endringer i databsen propagerer ut i det eksponerte APIet. 
 
 Vi tror denne modellen vil føre til mindre feil, men kanskje litt
 data regressjon under workshopen. Men vi kommer forhåpentligvis til å få tid til
@@ -174,7 +174,7 @@ Så hvis ``DEPRECATED-ENDPOINT`` er definert så skal man ikke bruke
 dette endpointet lenger. Og meta informasjon om hvorfor dette har endret seg.
 
 Vi velger å **ikke** gjøre en **redirect** på dette tidspunktet siden dette
-endpoint kan ha en annen datamodell enn den nye. 
+endpoint kan ha en annen datamodell enn den nye.
 
 
 # Deploy til Heroku
