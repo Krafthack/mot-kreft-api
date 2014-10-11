@@ -6,6 +6,8 @@ var dummyUser = function (req, res, next) {
   else if (session.user == null){
     session.user = new User('dummy', 'Im dummy');
     return next();
+  } else {
+    return next(); 
   }
 }
 
