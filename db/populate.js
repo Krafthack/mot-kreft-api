@@ -13,32 +13,11 @@ var flatten = function(a,b) {
   return a.concat(b);
 };
 
-var populate = {
-  users: function(pgClient, users) {
-    var users = users.map(function(user) {
-      return "insert into users (id, name) values ("+user.id+", '"+ user.name +"')"
-    }).join(';')
+var usersQueries = users.map(function(user) {
+  return "insert into users (id, name) values ("+user.id+", '"+ user.name +"')"
+}).join(';\n')
 
-    console.log(users)
-
-    return pgClient.query(users)
-    .then(function(results) {
-      console.log('Successfully populated the db with users\n');
-    }, function(err) {
-      console.log('Failed to populate db with users: ' + err + '\n');
-    })
-  }
-}
-
-pg.connect(connString).then(function(pgClient) {
-  populate.users(pgClient, users).finally(function() {
-    pgClient.close();
-  });
-})
-
-pg.connect(connString).then(function(pgClient) {
-
-  var queries = users
+var moodsQueries = users
   .map(function(user) {
     var arr = [];
     for (var i = 0; i < 15; i++) {
@@ -54,16 +33,11 @@ pg.connect(connString).then(function(pgClient) {
     return "insert into moods(user_id, ts, comment, location, feel) " +
     "values (" + user.id + ", NOW(), 'Hello', '"+location+"', "+feel+")";
 
-  }).join(';')
+  }).join(';\n')
 
-  pgClient.query(queries)
-  .then(function() {
-    console.log('Successfully populated db with moods');
-  }, function(err) {
-      console.log('Query failed: '+ queries);
-      console.log(err);
-      console.log('\n');
-  }).finally(function() {
-    pgClient.close();
-  });
-})
+
+
+console.log('/* Define users*/')
+console.log(usersQueries);
+console.log('\n/*Define moods*/')
+console.log(moodsQueries);
