@@ -9,7 +9,8 @@ app.get('/moods', function(req, res) {
       return res.status(500).json(
         { success: false, error: 'Could not connect to the database'});
     }
-    client.query('SELECT * FROM moods', function(err, result) {
+    var userId = req.session.user.id;
+    client.query('SELECT * FROM moods where user_id = $1::int', [userId], function(err, result) {
       //call `done()` to release the client back to the pool
       done();
 

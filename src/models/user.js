@@ -1,5 +1,5 @@
-function User(username, name) {
-  this.username = username;
+function User(id, name) {
+  this.id = id;
   this.name = name;
 }
 module.exports = User;
