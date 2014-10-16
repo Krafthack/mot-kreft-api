@@ -5,12 +5,15 @@ var app = express();
 app.get('/moods', function(req, res) {
   var conString = app.get('databaseString');
   pg.connect(conString).then(function(pgclient) {
-    pgclient.query('SELECT * FROM moods', function(err, results) {
+
+    pgclient.query('SELECT * FROM moods').then(function(results) {
+      return res.json({ success: true, moods: results.rows })
+    }, function(err) {
       if (err) {
         return res.status(500).json( {success: false, error: err} )
       }
-      return res.json({ success: true, moods: results.rows })
     })
+
   }, function(err) {
     return res.status(500).json(
       { success: false, error: 'Could not connect to the database'});
