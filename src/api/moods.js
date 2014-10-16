@@ -11,14 +11,12 @@ app.get('/moods', function(req, res) {
     }
     var userId = req.session.user.id;
     client.query('SELECT * FROM moods where user_id = $1::int', [userId], function(err, result) {
-      //call `done()` to release the client back to the pool
       done();
 
       if(err) {
         return res.status(500).json( {success: false, error: err});
       }
       return res.json({ success: true, data: result.rows })
-      //output: 1
     });
   });
 });
