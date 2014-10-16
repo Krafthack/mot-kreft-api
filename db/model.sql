@@ -10,7 +10,7 @@ create table users (
   primary key (id)
 );
 
-create table caretaker (
+create table cares (
   id serial,
   name varchar(50),
   primary key (id)
