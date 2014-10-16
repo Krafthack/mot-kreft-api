@@ -1,5 +1,3 @@
-var pg = require('../src/lib/q-pg');
-
 var connString = process.env.DATABASE_URL;
 
 var users = [
