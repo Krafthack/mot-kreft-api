@@ -38,14 +38,20 @@ var caresQueries = cares.map(function(care) {
 }).join('\n')
 
 var moodsQueries = users
-  .map(multiply(15))
+  .map(multiply(500))
   .reduce(flatten)
   .map(function(user) {
     var feel = Math.floor(Math.random() * 3);
     var location = Math.floor(Math.random() * 2) == 0 ? 'Home' : 'Hospital';
 
+    var date = new Date();
+    var day = date.getDate();
+    date.setDate(day + Math.floor(Math.random() * 10))
+    var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() +
+      ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
     return "insert into moods(user_id, ts, comment, location, feel) " +
-    "values (" + user.id + ", NOW(), 'Hello', '"+location+"', "+feel+");";
+    "values (" + user.id + ", '"+dateStr+"', 'Hello', '"+location+"', "+feel+");";
 
   }).join('\n')
 

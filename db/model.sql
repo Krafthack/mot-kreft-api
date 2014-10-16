@@ -32,7 +32,7 @@ create table days (
   id serial,
   user_id integer,
   day date,
-  primary key (id),
+  primary key (user_id, day),
   foreign key (user_id) references users(id),
   day_type varchar(50)
 );
