@@ -7,6 +7,7 @@ drop table users;
 create table users (
   id serial,
   name varchar(50),
+  username varchar(50),
   primary key (id)
 );
 
