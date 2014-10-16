@@ -30,6 +30,7 @@ create table moods (
 create table days (
   id serial,
   user_id integer,
+  day date,
   primary key (id),
   foreign key (user_id) references users(id),
   day_type varchar(50)
