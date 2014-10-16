@@ -25,7 +25,7 @@ app.get('/users/me', function(req,res) {
       }
       var user = result.rows[0];
       req.session.user = new User(user.name.replace(' ', '-'), user.name)
-      res.json(req.session.user)
+      res.json({ success: true, data: req.session.user});
     });
   });
 })

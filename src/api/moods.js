@@ -16,7 +16,7 @@ app.get('/moods', function(req, res) {
       if(err) {
         return res.status(500).json( {success: false, error: err});
       }
-      return res.json({ success: true, moods: result.rows })
+      return res.json({ success: true, data: result.rows })
       //output: 1
     });
   });
