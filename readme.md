@@ -45,8 +45,7 @@ ikke finnes fra før.
 Appen bruker *miljævariabler* for å vite hvor den skal lete etter database fra
  I OS X kan man sette *miljævariabelen* på følgende måte i terminalvinduet
  ```sh
- export DATABASE_URL=
-postgres://dev_krafthack:<dev_password>@localhost/krefthack
+ export DATABASE_URL=postgres://dev_krafthack:<dev_password>@localhost/krefthack
  ```
  der ``<dev_password>``er det passordet du valgte i steg 1.1.
 
