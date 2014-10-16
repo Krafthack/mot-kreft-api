@@ -39,9 +39,8 @@ create table days (
 create table hugs (
   id serial,
   user_id integer,
-  day_id integer,
+  ts timestamp,
   from_name varchar(50),
   primary key (id),
-  foreign key (day_id) references days(id),
   foreign key (user_id) references users(id)
 );
