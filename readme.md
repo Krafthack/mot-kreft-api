@@ -49,12 +49,21 @@ Appen bruker *miljævariabler* for å vite hvor den skal lete etter database fra
  ```
  der ``<dev_password>``er det passordet du valgte i steg 1.1.
 
+### Populering av databasen
+For å populere databasen med dev data kan du kjøre følgende kommandolinje.
+Scriptet forutsetter at du har konfigurert opp ``DATABASE_URL`` og at
+setup-scriptet fullførte som forventet
+
+```sh
+node db/populate.js | psql krefthack
+```
+
 # Oppdatere databasemodellen
 Siden dette er en workshop der minst 3 apper kommer til å eksistere samtidig og
 være under konstant forandring, har vi valgt å ha en veldig fleksibel datamodell
 som kommer til å bli endret i etter tid. Under workshoppen vil det derfor ikke
 være lov til å slette tabeller eller rader i tabellen. Dette er for å unngå at
-større endringer i databsen propagerer ut i det eksponerte APIet. 
+større endringer i databsen propagerer ut i det eksponerte APIet.
 
 Vi tror denne modellen vil føre til mindre feil, men kanskje litt
 data regressjon under workshopen. Men vi kommer forhåpentligvis til å få tid til
