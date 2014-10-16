@@ -1,5 +1,4 @@
 var User = require('../models/user');
-var pg = require('../lib/q-pg');
 
 var dummyUser = function(user) {
     return function (req, res, next) {
