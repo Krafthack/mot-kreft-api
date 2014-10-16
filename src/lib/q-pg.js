@@ -15,11 +15,11 @@ var QClient = function(pgclient) {
       }
     })
 
-    this.close = function() {
-      pgclient.end();
-    }
-
     return deferred.promise;
+  }
+
+  this.close = function() {
+    pgclient.end();
   }
 
   return this;
@@ -40,9 +40,6 @@ function Qpg () {
         }
       })
       return deferred.promise;
-    },
-    close: function() {
-
     }
   }
 }
