@@ -11,6 +11,8 @@ var QClient = function(pgclient) {
         return deferred.reject(['something went wrong when querying', err])
       }
       else {
+        done();
+        pgclient.end()
         return deferred.resolve(results)
       }
     })

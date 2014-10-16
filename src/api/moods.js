@@ -1,22 +1,24 @@
 var express = require('express');
-var pg = require('../lib/q-pg');
+var pg = require('pg');
 var app = express();
 
 app.get('/moods', function(req, res) {
   var conString = app.get('databaseString');
-  pg.connect(conString).then(function(pgclient) {
+  pg.connect(conString, function(err, client, done) {
+    if(err) {
+      return res.status(500).json(
+        { success: false, error: 'Could not connect to the database'});
+    }
+    client.query('SELECT * FROM moods', function(err, result) {
+      //call `done()` to release the client back to the pool
+      done();
 
-    pgclient.query('SELECT * FROM moods').then(function(results) {
-      return res.json({ success: true, moods: results.rows })
-    }, function(err) {
-      if (err) {
-        return res.status(500).json( {success: false, error: err} )
+      if(err) {
+        return res.status(500).json( {success: false, error: err});
       }
-    })
-
-  }, function(err) {
-    return res.status(500).json(
-      { success: false, error: 'Could not connect to the database'});
+      return res.json({ success: true, moods: result.rows })
+      //output: 1
+    });
   });
 });
 
