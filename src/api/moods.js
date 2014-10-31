@@ -22,7 +22,35 @@ app.get('/moods', function(req, res) {
 });
 
 app.post('/moods', function(req, res) {
-  res.json({ success: false, error: 'Not implemented' })
+  var conString = app.get('databaseString');
+  var data = req.body;
+  var id = req.session.user.id;
+
+  if (data.feel == null) {
+    return res.json({ success: false, error: 'Wrong data format, feel::int is required' })
+  }
+
+  pg.connect(conString, function(err, client, done) {
+    if(err) {
+      return res.status(500).json(
+        { success: false, error: 'Could not connect to the database'});
+    }
+    var userId = req.session.user.id;
+    var query = 'insert into moods (user_id, ts, comment, location, feel) ' +
+    'values($1, NOW(), $2, $3, $4)';
+
+    client.query(query,
+      [id, data.comment || '', data.location || '', data.feel],
+      function(err, result) {
+
+      done();
+
+      if(err) {
+        return res.status(500).json( {success: false, error: err});
+      }
+      return res.json({ success: true })
+    });
+  });
 });
 
 module.exports = app;
