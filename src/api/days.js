@@ -36,24 +36,54 @@ app.get('/days', function(req, res) {
         return deferred.promise;
       })
 
+      var moods = result.rows.map(function(day) {
+        var deferred = Q.defer();
+        var today = moment(day.day).format('YYYY-MM-DD');
+        var yester = moment(today).add(-1, 'day').format('YYYY-MM-DD');
+        client.query('select * from moods where moods.ts < $1 and moods.ts > $2 and user_id = $3',
+        [today, yester, userId], function(err, result) {
+          if (err) {
+            return deferred.reject(err);
+          } else {
+            return deferred.resolve(result.rows);
+          }
+        })
+        return deferred.promise;
+      })
+
       Q.allSettled(hugs).then(function(results) {
-        done();
-        var hugs = results.map(function(result) {
+        var dayHugs = results.map(function(result) {
           return result.value;
         });
 
-        var data  = _(result.rows).zip(hugs)
+        return { hugs: dayHugs };
+      }, function() {
+        console.log('something went horribly');
+      })
+      .then(function(struct) {
+        var deferred = Q.defer();
+
+        Q.allSettled(moods).then(function(results) {
+          var dayMoods = results.map(function(result) {
+            return result.value;
+          });
+          deferred.resolve(_.extend(struct, { moods: dayMoods }));
+        })
+
+        return deferred.promise;
+      })
+      .then(function(struct) {
+        done();
+        var data  = _(result.rows).zip(struct.hugs, struct.moods)
         .map(function(result) {
           var day = result[0];
           day.hugs = result[1];
+          day.moods = result[2];
           return day;
         })
         .value()
 
-
-        return res.json({ success: true, data: data })
-      }, function() {
-        console.log('something went horribly');
+        res.json({ success: true, data: data });
       })
 
     });
