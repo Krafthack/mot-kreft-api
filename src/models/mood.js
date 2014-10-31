@@ -27,7 +27,7 @@ var all = function(userId, error, success) {
      error: error,
      success: success
    }
-  db(args);
+  this.db(args);
 }
 
 var create = function(id, data, error, success) {
@@ -39,7 +39,7 @@ var create = function(id, data, error, success) {
     return error('Feel must be between 0 and 100.');
   }
 
-  db({
+  this.db({
     query: 'insert into moods (user_id, ts, comment, location, feel) values($1, NOW(), $2, $3, $4)',
     params: [id, data.comment || '', data.location || '', data.feel],
     error: error,
@@ -49,5 +49,6 @@ var create = function(id, data, error, success) {
 
 Mood.prototype.all = all;
 Mood.prototype.create = create;
+Mood.prototype.db = db;
 
 module.exports = Mood;
