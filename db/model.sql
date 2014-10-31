@@ -8,6 +8,7 @@ create table users (
   id serial,
   name varchar(50),
   username varchar(50),
+  friends serial[],
   primary key (id)
 );
 
