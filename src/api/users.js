@@ -1,5 +1,4 @@
 var express = require('express');
-var dummies = require('../mocks/dummy');
 var app = express();
 
 app.post('/users', function(req, res) {
