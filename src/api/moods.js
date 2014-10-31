@@ -3,9 +3,9 @@ var pg = require('pg');
 var Mood = require('../models/mood');
 var app = express();
 
-app.get('/moods', function(req, res) {
-  var mood = new Mood(app.get('databaseString'));
+var mood = new Mood(app.get('databaseString'));
 
+app.get('/moods', function(req, res) {
   var userId = req.session.user.id;
 
   var success = function(result) {
@@ -20,7 +20,6 @@ app.get('/moods', function(req, res) {
 });
 
 app.post('/moods', function(req, res) {
-  var mood = new Mood(app.get('databaseString'));
   var data = req.body;
   var id = req.session.user.id;
 
