@@ -5,7 +5,12 @@ function Mood(conStr) {
 }
 
 var db = function(args) {
-  pg.connect(this.conStr, function(err, client, done) {
+
+  if (args.conStr == null || args.conStr == '') {
+    throw new Error('Database connection string not specified.')
+  }
+
+  pg.connect(args.conStr, function(err, client, done) {
     if(err) {
       return error('Could not connect to the database')
     }
@@ -22,12 +27,13 @@ var db = function(args) {
 
 var all = function(userId, error, success) {
   var args = {
-     query: 'SELECT * FROM moods where user_id = $1::int',
-     params: [userId],
-     error: error,
-     success: success
-   }
-  this.db(args);
+    conStr: this.conStr,
+    query: 'SELECT * FROM moods where user_id = $1::int',
+    params: [userId],
+    error: error,
+    success: success
+  }
+  db(args);
 }
 
 var create = function(id, data, error, success) {
@@ -39,7 +45,8 @@ var create = function(id, data, error, success) {
     return error('Feel must be between 0 and 100.');
   }
 
-  this.db({
+  db({
+    conStr: this.conStr,
     query: 'insert into moods (user_id, ts, comment, location, feel) values($1, NOW(), $2, $3, $4)',
     params: [id, data.comment || '', data.location || '', data.feel],
     error: error,
@@ -49,6 +56,5 @@ var create = function(id, data, error, success) {
 
 Mood.prototype.all = all;
 Mood.prototype.create = create;
-Mood.prototype.db = db;
 
 module.exports = Mood;
