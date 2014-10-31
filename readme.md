@@ -1,3 +1,5 @@
+[ ![Codeship Status for Krafthack/mot-kreft-api](https://www.codeship.io/projects/a125fd50-430b-0132-24de-5a1eef27ce79/status)](https://www.codeship.io/projects/44566)
+
 # Oppsett for utvikling
 Applikasjonen (appen) kjøres på [Heroku](https://www.heroku.com/) og domene for
 APIet er [api.mot-kreft.krafthack.it](http://api.mot-kreft.krafthack.it).
