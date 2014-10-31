@@ -4,20 +4,30 @@ function Mood(conStr) {
   this.conStr = conStr
 }
 
-var all = function(userId, error, success) {
+var db = function(args) {
   pg.connect(this.conStr, function(err, client, done) {
     if(err) {
       return error('Could not connect to the database')
     }
-    client.query('SELECT * FROM moods where user_id = $1::int', [userId], function(err, result) {
+    client.query(args.query, args.params, function(err, result) {
       done();
 
       if(err) {
-        error(err)
+        args.error(err)
       }
-      return success(result)
+      return args.success(result)
     });
   });
+}
+
+var all = function(userId, error, success) {
+  var args = {
+     query: 'SELECT * FROM moods where user_id = $1::int',
+     params: [userId],
+     error: error,
+     success: success
+   }
+  db(args);
 }
 
 var create = function(id, data, error, success) {
@@ -29,24 +39,11 @@ var create = function(id, data, error, success) {
     return error('Feel must be between 0 and 100.');
   }
 
-  pg.connect(this.conStr, function(err, client, done) {
-    if(err) {
-      return error('Could not connect to the database');
-    }
-    var query = 'insert into moods (user_id, ts, comment, location, feel) ' +
-    'values($1, NOW(), $2, $3, $4)';
-
-    client.query(query,
-      [id, data.comment || '', data.location || '', data.feel],
-      function(err, result) {
-
-      done();
-
-      if(err) {
-        error(err)
-      }
-      success()
-    });
+  db({
+    query: 'insert into moods (user_id, ts, comment, location, feel) values($1, NOW(), $2, $3, $4)',
+    params: [id, data.comment || '', data.location || '', data.feel],
+    error: error,
+    success: success
   });
 }
 
