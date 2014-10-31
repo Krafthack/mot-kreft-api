@@ -18,7 +18,7 @@ var db = function(args) {
       done();
 
       if(err) {
-        args.error(err)
+        return args.error(err)
       }
       return args.success(result)
     });
