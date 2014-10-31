@@ -30,6 +30,10 @@ app.post('/moods', function(req, res) {
     return res.json({ success: false, error: 'Wrong data format, feel::int is required' })
   }
 
+  if (data.feel < 0 && data.feel > 100) {
+    return res.json({ success: false, error: 'Feel must be between 0 and 100.' })
+  }
+
   pg.connect(conString, function(err, client, done) {
     if(err) {
       return res.status(500).json(
