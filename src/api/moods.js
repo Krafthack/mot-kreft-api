@@ -1,6 +1,5 @@
-var express = require('express');
-var pg = require('pg');
 var Mood = require('../models/mood');
+var express = require('express');
 var app = express();
 
 app.get('/moods', function(req, res) {
@@ -27,7 +26,7 @@ app.post('/moods', function(req, res) {
   var error = function(err) {
     return res.status(500).json( {success: false, error: err});
   }
-  
+
   mood.create(id, data, error, function() {
     return res.json({ success: true })
   });
