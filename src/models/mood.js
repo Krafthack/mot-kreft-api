@@ -21,6 +21,14 @@ var all = function(userId, error, success) {
 }
 
 var create = function(id, data, error, success) {
+  if (data.feel == null) {
+    return error('Wrong data format, feel::int is required');
+  }
+
+  if (data.feel < 0 || data.feel > 100) {
+    return error('Feel must be between 0 and 100.');
+  }
+
   pg.connect(this.conStr, function(err, client, done) {
     if(err) {
       return error('Could not connect to the database');
