@@ -5,7 +5,7 @@ function Mood(conStr) {
 }
 
 var all = function(userId, error, success) {
-  pg.connect(this.conString, function(err, client, done) {
+  pg.connect(this.conStr, function(err, client, done) {
     if(err) {
       return error('Could not connect to the database')
     }
@@ -21,7 +21,7 @@ var all = function(userId, error, success) {
 }
 
 var create = function(id, data, error, success) {
-  pg.connect(this.conString, function(err, client, done) {
+  pg.connect(this.conStr, function(err, client, done) {
     if(err) {
       return error('Could not connect to the database');
     }
