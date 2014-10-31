@@ -5,15 +5,15 @@ var app = express();
 
 var mood = new Mood(app.get('databaseString'));
 
-var error = function(err) {
-  return res.status(500).json( {success: false, error: err});
-}
-
 app.get('/moods', function(req, res) {
   var userId = req.session.user.id;
 
   var success = function(result) {
     return res.json({ success: true, data: result.rows })
+  }
+
+  var error = function(err) {
+    return res.status(500).json( {success: false, error: err});
   }
 
   mood.all(userId, error, success);
@@ -23,6 +23,10 @@ app.post('/moods', function(req, res) {
   var conString = app.get('databaseString');
   var data = req.body;
   var id = req.session.user.id;
+
+  var error = function(err) {
+    return res.status(500).json( {success: false, error: err});
+  }
 
   if (data.feel == null) {
     return res.json({ success: false, error: 'Wrong data format, feel::int is required' })
